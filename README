@@ -1,0 +1,62 @@
+WHAT:
+-------------------------------------------
+Implementations of fast exact k-means algorithms as described in ?, available through
+the following interfaces:
+
+(1) Shared library with accompanying C++ header file
+(2) Command-line executable
+(3) Python library
+
+
+REQUIREMENTS:
+-------------------------------------------
+Minimal installation requirements:
+-- C++ compiler supporting C++11
+-- Linux operating system
+
+Optional but recommended:
+-- BLAS, we recommend the implementation at http://www.openblas.net/
+
+Specific for Python library:
+-- any version of Python  
+
+
+
+CONFIGURATION:
+-------------------------------------------
+In Makefile, set
+WITHBLAS, LIBDIR
+as per directions in Makefile
+
+if WITHBLAS set to YES, then set 
+LIBBLASDIR, INCBLASDIR
+unless necessary blas paths will be found automatically
+
+if you wish to install the python library, then set
+PYLIBDIR
+as per direction in Makefile
+
+Remember! Paths LIBDIR and PYLIBDIR need to be added to LD_LIBRARY_PATH and PYTHONPATH
+resectively, before building
+
+
+BUILDING:
+-------------------------------------------
+For (1) and (2) : Run `make all' in terminal
+For (1) and (2) and (3) : Run `make all pythonkmeans' in terminal
+
+
+USING: 
+-------------------------------------------
+(2) If successfully installed, you should find an executable in directory
+./bins/kmeans/bin (either withblaskmeans or blaslesskmeans depending on WITHBLAS)
+Run the executable with -h flag to see the options
+
+(3) If successfully installed, you should be able to `import kmeans'. Example use is
+found in cython/kmeans/examples
+
+
+
+DOESN'T WORK?
+-------------------------------------------
+Please contact me at jnewling@idiap.ch

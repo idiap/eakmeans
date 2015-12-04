@@ -1,0 +1,1 @@
+templatedbarrierutil is the original implementation, with inline templated functions. It is equivalent to barrierutil.h where size_t is used as the template parameter (in accordance with kmeans project). 

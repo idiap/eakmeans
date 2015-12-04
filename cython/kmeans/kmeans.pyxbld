@@ -1,0 +1,45 @@
+#EAKMeans is a fast Exact K-means library written in C++ with 
+#command-line interface, shared library + header files and 
+#Python bindings
+
+#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
+#Written by James Newling <jnewling@idiap.ch>
+
+#This file is part of EAKMeans.
+
+#EAKMeans is free software: you can redistribute it and/or modify
+#it under the terms of the GNU General Public License version 3 as
+#published by the Free Software Foundation.
+
+#EAKMeans is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#GNU General Public License for more details.
+
+#You should have received a copy of the GNU General Public License
+#along with EAKMeans. If not, see <http://www.gnu.org/licenses/>.
+
+import socket
+hostname = socket.gethostname()
+
+# should have these paths set once somewhere else?
+
+if hostname == "goudurix12":
+	X_include_dir = "/idiap/home/jnewling/libraries/utility/pllkmeans/include"
+	X_library_dir = "/idiap/user/jnewling/own/templib"
+	openblaslibdir = "/idiap/user/jnewling/openblas/lib"
+
+else:
+	X_include_dir = "/home/james/libraries/utility/pllkmeans/include"
+	X_library_dir = "/home/james/oak/own/templib"
+	openblaslibdir = "/home/james/oak/openblas/lib"
+
+# pyxsrc_dir = "../pyxsrc"
+# , pyxsrc_dir
+
+import os
+# print os.listdir(openblaslibdir)
+def make_ext(modulename, pyxfilename):
+	from distutils.core import Extension
+	return Extension(name = modulename, sources = ["kmeans.pyx"], include_dirs = [X_include_dir], library_dirs = [openblaslibdir, X_library_dir], libraries = ["openblas", "pllkmeans", "blasutil", "stringutil", "stdthreadutil"], language = "c++")
+
