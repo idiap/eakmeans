@@ -37,10 +37,13 @@ all : main lib pythonkmeans
 
 
 main :  $(OBJECTS)
+	@mkdir -p bin
+	
 	$(LINKER) -o bin/${TARGET} $(OBJECTS) $(LFLAGS)
 	@echo "Linking for main of ${NAME} done!"
 
 lib : $(OBJECTS_FORLIB)
+	@mkdir -p lib
 	$(CXX) -shared $^ -o lib/$(LIBNAME).so
 	@echo "Shared library ${LIBNAME} made!"
 
@@ -48,6 +51,7 @@ pythonkmeans:
 	python setup.py build_ext -b lib
 
 obj/%.o : src/%.cpp  $(HEADERS)
+	@mkdir -p obj
 	$(CXX) -c  $(CXXFLAGS) $(INCLUDEPATHS) $< -o $@
 	@echo "compiled "$<" successfully!"
 
@@ -65,6 +69,9 @@ remove: clean
 	-rm cythonsrc/kmeans.cpp
 	-rm -rf build
 	-rm bin/*
+	-rm -rf bin
 	-rm lib/*
+	-rm -rf lib
+	-rm -rf obj
 	@echo "should be 100% clean!"
 
