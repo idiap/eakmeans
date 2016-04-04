@@ -1,37 +1,7 @@
-#eakmeans is a library for exact and approximate k-means written in C++ and Python
-#
-#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
-#Written by James Newling <jnewling@idiap.ch>
-#
-#This file is part of eakmeans.
-#
-#eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation.
-#
-#eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-
-#You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
-
-
-#eakmeans is a fast Exact K-means library written in C++ with 
-#command-line interface, shared library + header files and 
-#Python bindings
-
 #Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
 #Written by James Newling <jnewling@idiap.ch>
 
-#This file is part of eakmeans.
-
-#eakmeans is free software: you can redistribute it and/or modify
-#it under the terms of the GNU General Public License version 3 as
-#published by the Free Software Foundation.
-
-#eakmeans is distributed in the hope that it will be useful,
-#but WITHOUT ANY WARRANTY; without even the implied warranty of
-#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-#GNU General Public License for more details.
-
-#You should have received a copy of the GNU General Public License
-#along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
+#eakmeans is a library for exact and approximate k-means written in C++ and Python. This file is part of eakmeans. eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
 
 from IPython.core.debugger import Tracer
 
@@ -95,15 +65,17 @@ if True == True:
 	for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader]): #rawheader,  rawheaderable, 
 		for fn in files:		
 			
-			print "headering ", fn, "..."
-			
-			filly = open(fn, "r")
-			lines = filly.read()
-			filly.close()
-			
-			filly = open(fn, "w")
-			filly.write(header)
-			filly.write(lines)
-			filly.close()
-			
+			if fn:
+				print "headering ", fn, "..."
+				
+				filly = open(fn, "r")
+				lines = filly.read()
+				filly.close()
+				
+				filly = open(fn, "w")
+				filly.write(header)
+				filly.write(lines)
+				filly.close()
+				
+		
 	
