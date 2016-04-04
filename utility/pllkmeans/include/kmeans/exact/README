@@ -1,1 +1,0 @@
-Cython doesn't like to see C++11 in header files, even if the functions used by Cython are a C++03 subset. For this reason I have separated header functions into 2 headers, *_void containing only the C++03 functions which Cython likes  

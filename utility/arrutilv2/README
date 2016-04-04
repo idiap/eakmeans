@@ -1,7 +1,0 @@
-header files for several low-level and not-so-level operations. low-level operations which benefit from blas/SSE are implemented in separate header files of the same name, which one to use should be indicated via the -I flag to the compiler. More specifically, if the blas version is used: the compiler should receive 
--I/path/to/arrutilv2/withblasbase/include -I/path/to/directory/containig/cblas.h 
-and the linker should receive 
--L/path/to/blas/lib/
-If the non-blas version is used, simply include the
--I/path/to/arrutilv2/blaslessbase/include
-as a compile flag.
