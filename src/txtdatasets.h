@@ -65,9 +65,12 @@ std::vector<TrainTestDataset> sparse_datasets{
 	{"nytimes"},// 299751 , 102661, "None", "/idiap/temp/jnewling/data/sparsedata/bagofwords/nytimes.txt"}
 	{"randdim5"},
 	{"randdim6"},
+	{"rand4", "/idiap/temp/jnewling/data/densedata/trainandtest/"},
 	{"infimnist", "/idiap/temp/jnewling/data/densedata/trainandtest/"},
-	{"infimnist28by28", "/idiap/temp/jnewling/data/densedata/trainandtest/"}
-	
+	{"infimnist28by28", "/idiap/temp/jnewling/data/densedata/trainandtest/"},
+	{"covtype", "/idiap/temp/jnewling/data/densedata/trainandtest/"},	
+	{"kddcup98", "/idiap/temp/jnewling/data/densedata/trainandtest/"},
+	{"stl10", "/idiap/temp/jnewling/data/densedata/trainandtest/"}				
 };
 
 std::vector<TxtDataset> txt_datasets {

@@ -430,7 +430,11 @@ int main(int argc, char* argv[]){
 				}
 				
 				else if (name == "ncentroids"){
+					
+					
 					ncentroids = std::stoi(arg);
+					
+					
 					std::cout << "ncentroids set to " << ncentroids << std::endl;
 					uopts.options["ncentroids"].isset = true;
 				}
@@ -678,6 +682,19 @@ int main(int argc, char* argv[]){
 		std::cerr << "problem with options : The algorithm " << algorithm << " is not a gb algorithm (the frag gb does not appear in its name) and yet tbrho has been set\n" ;
 		return 1;		
 	}
+	
+	if (ncentroids == 2){
+		if (algorithm.compare("yin-sn") == 0 || algorithm.compare("syin-sn") == 0 || algorithm.compare("syin-ns") == 0  ||algorithm.compare("exp-sn") == 0 || algorithm.compare("exp-ns") == 0){
+			std::cerr << "Currently no exp or yin algorithms work with 2 centroids, please select a different algorithm \n" ;
+			return 1;
+		}
+	}
+	
+	if (ncentroids < 1){
+			std::cerr << "ncentroids should be greater than 1 \n" ;
+			return 1;
+	}
+
 
 	bool issparse = algissparse(algorithm);
 	

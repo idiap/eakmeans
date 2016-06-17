@@ -64,7 +64,7 @@ template <typename TFloat, typename TInt> //class URNG ?
 std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, TFloat > get_kmeanspp_initialisation(TInt ndata, TInt dimension, const TFloat * const data, const TFloat * const data_l22s, TInt ncentroids){
 	
 	
-	std::cout << "in get_kmeanspp_initialisation with (ndata, dimension) : ( " << ndata << ", " << dimension << ")" << std::endl; 
+	//std::cout << "in get_kmeanspp_initialisation with (ndata, dimension) : ( " << ndata << ", " << dimension << ")" << std::endl; 
 	
 	TFloat l22;
 	TInt index;

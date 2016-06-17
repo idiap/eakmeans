@@ -713,7 +713,7 @@ class BaseCluster{
 		
 
 		/* propotion of ratios required to vote for no increase to get no increase. [increase rank --> more doubling] */
-		TFloat rank = 0.5; 
+		TFloat rank = 0.001; //0.5; 
 		/* delta_C > phi * rmse --> vote for no increase. [increase phi --> more doubling] */
 		//gbphi : this is maybe a bit low. could experiment with at some point?
 		std::nth_element(ratios.begin(), ratios.begin() + ratios.size()*rank, ratios.end());
@@ -796,7 +796,7 @@ class BaseCluster{
 
 			this->gbphi = gbphi;
 
-			std::cout << "The value of gbphi is " << this->gbphi << std::endl;
+			//std::cout << "The value of gbphi is " << this->gbphi << std::endl;
 			
 			this->cmsewritefn = cmsewritefn;
 

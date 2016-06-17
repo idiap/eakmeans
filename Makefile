@@ -5,7 +5,7 @@
 
 ##########################################################
 #compile with blas?
-USEBLAS = YES
+USEBLAS = NO
 export LIBBLASDIR=/idiap/user/jnewling/openblas/lib
 export INCBLASDIR=/idiap/user/jnewling/openblas/include
 ##########################################################
@@ -37,8 +37,7 @@ all : main lib pythonkmeans
 
 
 main :  $(OBJECTS)
-	@mkdir -p bin
-	
+	@mkdir -p bin	
 	$(LINKER) -o bin/${TARGET} $(OBJECTS) $(LFLAGS)
 	@echo "Linking for main of ${NAME} done!"
 
@@ -68,9 +67,7 @@ clean:
 remove: clean
 	-rm cythonsrc/kmeans.cpp
 	-rm -rf build
-	-rm bin/*
 	-rm -rf bin
-	-rm lib/*
 	-rm -rf lib
 	-rm -rf obj
 	@echo "should be 100% clean!"

@@ -288,6 +288,13 @@ mse
 		#a hack to let slip through 
 		X_validation = np.empty((1,), dtype = float_type)
 		nvaldata = 0
+	
+	if ncentroids < 2:
+		raise RuntimeError("number of clusters should be 2 or larger")
+	
+	if (ncentroids == 2) and ("auto" in algorithm or "exp" in algorithm or "yin" in algorithm):
+		raise RuntimeError("Currently, no exp or yin algorithms can be run with ncentroids == 2. Please select another algorithm (not auto/exp/yin) ")
+	
 		
 	return dangerwrap(lambda : basekmeans(algorithm, n_threads, ndata, dimension, X.ravel(), ncentroids, cout_verbosity, initialisation_method, C_init.ravel(), data_indices_init_from.ravel(), setseed, seed, max_iter, max_time, minibatchsize, nvaldata, X_validation.ravel(), validation_period, capture_verbose))
 

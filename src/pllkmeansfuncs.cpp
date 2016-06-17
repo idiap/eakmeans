@@ -24,7 +24,7 @@ eakmeans is a library for exact and approximate k-means written in C++ and Pytho
 namespace cluster{
 	
 	template <typename TFloat>
-	void set_data_from_file(const std::string &fn, std::unique_ptr<TFloat []> & data, size_t & ndata, size_t & dimension, bool shuffle){
+	void set_data_from_file(const std::string & fn, std::unique_ptr<TFloat []> & data, size_t & ndata, size_t & dimension, bool shuffle){
 		bool withheader = stringutilfile::file_has_2int_header(fn);
 		std::fstream valdfile(fn, std::ios_base::in);
 		if (withheader == false){

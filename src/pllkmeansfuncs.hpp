@@ -35,7 +35,7 @@ namespace cluster{
 		
 		//I assume cmse not wanted
 		size_t cmserate = 0;
-		TFloat gbphi = 1e-3;
+		TFloat gbphi = 1e-3; //ooph......
 		auto pretro = solve6<'d', size_t, TFloat>(algorithm, minibatchsize, nthreads, ndata, dimension, data, ncentroids, cout_verbosity, 0,  nowhere, initialisation_method, C_init, data_indices_init_from, setseed, seed, maxtime, maxrounds, "", nvaldata, valdata, valperiod, "", cmserate, gbphi);
 		
 

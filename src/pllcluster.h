@@ -124,7 +124,7 @@ namespace cluster{
 	std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, std::unique_ptr<TInt []>, TInt, TInt, TFloat>
 	get_tup6_dense(const std::string & ENTERING_OPENBLAS_NUM_THREADS, const std::string & algorithm, TInt minibatchsize, Args&&... args)
 	{
-		std::cout << "in get tup 6 dense" << std::endl;
+		//std::cout << "in get tup 6 dense" << std::endl;
 		
 		arrutilv2::proxy_openblas_set_num_threads(1);
 		std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, std::unique_ptr<TInt []>, TInt, TInt, TFloat> tup;
