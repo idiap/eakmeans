@@ -5,7 +5,7 @@
 
 ##########################################################
 #compile with blas?
-USEBLAS = NO
+USEBLAS = YES
 export LIBBLASDIR=/idiap/user/jnewling/openblas/lib
 export INCBLASDIR=/idiap/user/jnewling/openblas/include
 ##########################################################

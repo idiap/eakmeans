@@ -148,7 +148,7 @@ max_iter
 init
 	string OR 2-d numpy float array OR 1-d integer array
 	if "uniform": centroids initialised as using uniform sampling from X
-	if "k-means++": centroids initialised using sampling described in Arthur, D. and Vassilvitskii, S. (2007)
+	if "kmeans++": centroids initialised using sampling described in Arthur, D. and Vassilvitskii, S. (2007)
 	if 2-d numpy float array : assumed to be initialising centroids
 	if 1-d integer array : assumed to be indices of data used to initialise centroids
 
@@ -269,7 +269,8 @@ mse
 			
 		elif init.ndim == 1:
 			initialisation_method = "from_indices"
-			data_indices_init_from = init
+			data_indices_init_from = init.copy()
+			data_indices_init_from.sort()
 	
 	else:
 		initialisation_method = init
