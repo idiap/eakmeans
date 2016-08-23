@@ -124,11 +124,12 @@ namespace cluster{
 	std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, std::unique_ptr<TInt []>, TInt, TInt, TFloat>
 	get_tup6_dense(const std::string & ENTERING_OPENBLAS_NUM_THREADS, const std::string & algorithm, TInt minibatchsize, Args&&... args)
 	{
-		//std::cout << "in get tup 6 dense" << std::endl;
 		
 		arrutilv2::proxy_openblas_set_num_threads(1);
 		std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, std::unique_ptr<TInt []>, TInt, TInt, TFloat> tup;
 	
+  
+	      
 		//TODO : change name : minibatchsize 
 		if (algorithm.compare("gbsimple") == 0){
 			kmeans::GBPSimple<TInt, TFloat> akmeans(minibatchsize, std::forward<Args>(args)...); //1, 21
@@ -166,17 +167,17 @@ namespace cluster{
 			tup = sokmo.get_6();
 		}
 		
-		else if (algorithm.compare("p4v2") == 0 || algorithm.compare("selkNS") == 0){
+		else if (algorithm.compare("p4v2") == 0 || algorithm.compare("selkNS") == 0  || algorithm.compare("selk-ns") == 0){
 			kmeans::P4V2<TInt, tautype, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}
 
-		else if (algorithm.compare("p12v7") == 0 || algorithm.compare("expNS") == 0){
+		else if (algorithm.compare("p12v7") == 0 || algorithm.compare("expNS") == 0 || algorithm.compare("exp-ns") == 0){
 			kmeans::P12V7<TInt, tautype, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}
 		
-		else if (algorithm.compare("p21v3") == 0 || algorithm.compare("syinNS") == 0){
+		else if (algorithm.compare("p21v3") == 0 || algorithm.compare("syinNS") == 0 || algorithm.compare("syin-ns") == 0){
 			kmeans::P21V3<TInt, tautype, TFloat> akmeans(std::forward<Args>(args)...);
 			return akmeans.get_6();
 		}			
@@ -193,18 +194,18 @@ namespace cluster{
 		}
 		
 		
-		else if (algorithm.compare("p3v0") == 0 || algorithm.compare("selkSN") == 0){
+		else if (algorithm.compare("p3v0") == 0 || algorithm.compare("selkSN") == 0 || algorithm.compare("selk-sn") == 0){
 			kmeans::P3V0<TInt, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}
 		
 		
-		else if (algorithm.compare("p5v1") == 0  || algorithm.compare("elkSN") == 0){
+		else if (algorithm.compare("p5v1") == 0  || algorithm.compare("elkSN") == 0 || algorithm.compare("elk-sn") == 0){
 			kmeans::P5V1<TInt, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}
 		
-		else if (algorithm.compare("p6v0") == 0 || algorithm.compare("elkNS") == 0){
+		else if (algorithm.compare("p6v0") == 0 || algorithm.compare("elkNS") == 0 || algorithm.compare("elk-ns") == 0){
 			kmeans::P6V0<TInt, tautype, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}
@@ -214,13 +215,13 @@ namespace cluster{
 			tup = akmeans.get_6();
 		}	
 
-		else if (algorithm.compare("p12v6") == 0 || algorithm.compare("expSN") == 0){
+		else if (algorithm.compare("p12v6") == 0 || algorithm.compare("expSN") == 0 || algorithm.compare("exp-sn") == 0){
 			kmeans::P12V6<TInt, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}	
 		
 		
-		else if (algorithm.compare("p13v0") == 0 || algorithm.compare("ann") == 0){
+		else if (algorithm.compare("p13v0") == 0 || algorithm.compare("ann") == 0 ){
 			kmeans::P13V0<TInt, TFloat> akmeans(std::forward<Args>(args)...);
 			tup = akmeans.get_6();
 		}	
@@ -260,7 +261,12 @@ namespace cluster{
 		
 
 		else{
-			arrutilv2::proxy_openblas_set_num_threads(stoi(ENTERING_OPENBLAS_NUM_THREADS));
+      std::cout << "invalid algorithm name" << std::endl;
+      //std::cout << "ENTERING_OPENBLAS_NUM_THREADS" << "`" << ENTERING_OPENBLAS_NUM_THREADS << "'" << std::endl;
+			
+      if (ENTERING_OPENBLAS_NUM_THREADS.compare("") != 0){
+        arrutilv2::proxy_openblas_set_num_threads(std::stoi(ENTERING_OPENBLAS_NUM_THREADS));
+      }
 			std::string error_string = std::string("Unrecognised algorithm in pllcluster : ") + algorithm + ". ";
 			throw std::runtime_error(error_string);
 		}
@@ -305,12 +311,14 @@ namespace cluster{
 	template <char sparsity, typename TInt, typename TFloat, typename...  Args>
 	std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, std::unique_ptr<TInt []>, TInt, TInt, TFloat>
 	solve6(const std::string & algorithm, TInt minibatchsize, Args&&... args){//1,1,21
-				
+		
 		std::string ENTERING_OPENBLAS_NUM_THREADS = "";
 		if (std::getenv("OPENBLAS_NUM_THREADS")){
 			ENTERING_OPENBLAS_NUM_THREADS = std::getenv("OPENBLAS_NUM_THREADS");
 		}
-
+    
+    
+    std::cout << "about to enter a try" << std::endl;		
 		try{
 			tup6_getter<sparsity, TInt, TFloat> a_getter;
 			return a_getter.get_tup6(ENTERING_OPENBLAS_NUM_THREADS, algorithm, minibatchsize, std::forward<Args>(args)...);//1,1,1,21
@@ -323,7 +331,6 @@ namespace cluster{
 			setenv("OPENBLAS_NUM_THREADS", ENTERING_OPENBLAS_NUM_THREADS.c_str(),1);
 			std::cerr << "bad_alloc caught: " << ba.what() << '\n';
 			std::cerr << "the attempt to cluster failed. Probably due to a memory allocation failure : the memory demand was too large (ndata/ncentroids/ngroups/n... too large). For now, will return tuple of nullptrs etc\n" << std::endl; 
-			//return  decltype(kmeans::P21V3<TInt, tautype, TFloat> akmeans(std::forward<Args>(args)...).get())
 		}
 		
 		return 	std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TInt []>, std::unique_ptr<TInt []>, TInt, TInt, TFloat > {nullptr, nullptr, nullptr, 0, 0, 0};
