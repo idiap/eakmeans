@@ -42,7 +42,28 @@ int main(){
   
    
   std::cout << "entering solveiolessf" << std::endl;  
+  /* the double version is sloveiolessd : see pllkmeansfuncs_nonvoid */
   auto results = cluster::solveiolessf(algorithm, nthreads, ndata, dimension, v_data.data(), ncentroids, cout_verbosity, initialisation_method, C_init,  v_data_indices_init_from.data(),  setseed,  seed,  maxtime, maxrounds, minibatchsize,  capture_verbose);
+  
+  /* return : C, L, inds0, duration, niterations, mse */
+  float * C = std::get<0> (results).get();
+  size_t * labels = std::get<1> (results).get();
+  size_t * starting_indices_returned = std::get<2> (results).get();
+  size_t duration = std::get<3> (results);
+  size_t niterations = std::get<4> (results);
+  double mse = std::get<5> (results);
+
+  std::vector<size_t> counts (ncentroids, 0);
+  for (size_t i = 0; i < ndata; ++i){
+    ++counts[labels[i]];
+  }
+  
+  std::cout << "- -- -  - -  --- -  -  -- - - -   --- -  -- -   -- -" << std::endl;
+  for (size_t k = 0; k < ncentroids; ++k){
+    std::cout << "in cluster " << k << " : " << counts[k] << std::endl;
+  }
+  
+  
   
   return 0;
 }
