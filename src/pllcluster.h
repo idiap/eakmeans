@@ -318,7 +318,7 @@ namespace cluster{
 		}
     
     
-    std::cout << "about to enter a try" << std::endl;		
+    //std::cout << "about to enter a try" << std::endl;		
 		try{
 			tup6_getter<sparsity, TInt, TFloat> a_getter;
 			return a_getter.get_tup6(ENTERING_OPENBLAS_NUM_THREADS, algorithm, minibatchsize, std::forward<Args>(args)...);//1,1,1,21

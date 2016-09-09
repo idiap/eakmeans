@@ -6,8 +6,8 @@
 ##########################################################
 #compile with blas?
 USEBLAS = YES
-export LIBBLASDIR=/home/james/openblas/lib
-export INCBLASDIR=/home/james/openblas/include
+export LIBBLASDIR=/idiap/user/jnewling/openblas/lib  #/home/james/openblas/lib
+export INCBLASDIR=/idiap/user/jnewling/openblas/include  #/home/james/openblas/include
 ##########################################################
 
 
