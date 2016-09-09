@@ -8,6 +8,7 @@ from libcpp.string cimport string
 from libcpp cimport bool
 cimport cython
 cimport cython.floating
+import random
 	
 cdef extern from "pllkmeansfuncs_void.h" namespace "cluster":	
 	void v_solveiolessf(const string & algorithm, size_t nthreads, size_t ndata, size_t dimension, const float * const data, size_t ncentroids, int cout_verbosity, const string & initialisation_method, const float * const C_init, const size_t * const data_indices_init_from, bool setseed, size_t seed, float maxtime, size_t maxrounds, float * const C, size_t * const L, size_t * const inds0, size_t & duration, size_t &  niterations, float & mse, size_t minibatchsize, size_t nvaldata, const float * const valdata, size_t valperiod, bool captureverbose, string & verbosestring) except + #except + as it might throw an exception, "so catch it cython"
@@ -103,8 +104,11 @@ def dangerwrap(f):
 	
 
   	
-def get_clustering(X, n_clusters, max_iter = 1e10, n_init = 1, init = "kmeans++", max_time = 1e20, n_threads = 1, seed = None, verbose = 1, algorithm = 'auto', minibatchsize = 100, X_validation = None, validation_period = 5, capture_verbose = False):
-	"""
+ # , n_init = 1
+ 
+def get_clustering(X, n_clusters, max_iter = 1e10, init = "kmeans++", max_time = 1e20, n_threads = 1, seed = None, verbose = 1, algorithm = 'auto', minibatchsize = 100, X_validation = None, validation_period = 5, capture_verbose = False):
+	"""  
+  
 Input
 -------------------
 X
@@ -149,6 +153,7 @@ init
 	string OR 2-d numpy float array OR 1-d integer array
 	if "uniform": centroids initialised as using uniform sampling from X
 	if "kmeans++": centroids initialised using sampling described in Arthur, D. and Vassilvitskii, S. (2007)
+  if "BF": use Bradley and Fayyad (with J = 10, as in Celebi)
 	if 2-d numpy float array : assumed to be initialising centroids
 	if 1-d integer array : assumed to be indices of data used to initialise centroids
 
@@ -272,6 +277,58 @@ mse
 			data_indices_init_from = init.copy()
 			data_indices_init_from.sort()
 	
+	elif init == "BF":
+		
+		random.seed(seed)
+		print "Performing BF initialisation...",
+		J = 10
+		X_copy = X.tolist()
+		random.shuffle(X_copy)
+		X_copy = np.array(X_copy, dtype = X.dtype)
+		ndata, dimension = X.shape
+		partition_Cs = np.empty((0, dimension), dtype = X.dtype)
+		for j in range(J):
+			print j, 
+			partition_start = int(ndata * (j + 0.)/(J + 0.))
+			partition_end = int(ndata * (j + 1.)/(J + 0.))
+			
+			clustering_j = get_clustering(X_copy[partition_start:partition_end, :], n_clusters = n_clusters, max_iter = max_iter, init = "uniform", max_time = max_time, n_threads = n_threads, seed = 1011, verbose = 0, algorithm = 'auto', minibatchsize = minibatchsize, X_validation = None, validation_period = 0, capture_verbose = False)
+			partition_Cs = np.vstack([partition_Cs, clustering_j['C']])
+		print ". ", 
+		
+#		print "SUM TEST : ", np.sum(partition_Cs)
+		
+		
+		partition_Cs_list = partition_Cs.tolist()
+		potential_initialisers = []
+		potential_initialiser_energies = []
+		random.seed(1011)
+		for j in range(J):
+			print j,
+			potential_initialisers.append(np.array(random.sample(partition_Cs_list, n_clusters), dtype = X.dtype))
+
+			clustering_j = get_clustering(partition_Cs, n_clusters = n_clusters, max_iter = max_iter, init = potential_initialisers[-1], max_time = max_time, n_threads = n_threads, seed = 1011, verbose = 0, algorithm = 'auto', minibatchsize = minibatchsize, X_validation = X_validation, validation_period = 0, capture_verbose = False)
+		
+			potential_initialiser_energies.append(clustering_j['mse'])
+		
+		print "."
+#		print potential_initialiser_energies
+		
+		lowest_energy_index = np.argmin(potential_initialiser_energies)
+#		print lowest_energy_index
+		#This will be the initialising set of centers.
+		init = potential_initialisers[lowest_energy_index]
+		C_init = init.ravel()
+		
+#		print "SUM TEST 2 : ", np.sum(init)
+#		print init
+		initialisation_method = "from_C"
+		
+	#	, n_init = 1
+		
+    
+    
+    
 	else:
 		initialisation_method = init
 	
@@ -296,6 +353,6 @@ mse
 	if (ncentroids == 2) and ("auto" in algorithm or "exp" in algorithm or "yin" in algorithm):
 		raise RuntimeError("Currently, no exp or yin algorithms can be run with ncentroids == 2. Please select another algorithm (not auto/exp/yin) ")
 	
-		
+  
 	return dangerwrap(lambda : basekmeans(algorithm, n_threads, ndata, dimension, X.ravel(), ncentroids, cout_verbosity, initialisation_method, C_init.ravel(), data_indices_init_from.ravel(), setseed, seed, max_iter, max_time, minibatchsize, nvaldata, X_validation.ravel(), validation_period, capture_verbose))
 
