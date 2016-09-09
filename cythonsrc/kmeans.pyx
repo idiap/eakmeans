@@ -280,8 +280,8 @@ mse
 	elif init == "BF":
 		
 		random.seed(seed)
-		if verbose >= 2:
-      print "Performing BF initialisation...",
+#		if verbose >= 2:
+#      print "Performing BF initialisation...",
 		J = 10
 		X_copy = X.tolist()
 		random.shuffle(X_copy)
@@ -289,16 +289,16 @@ mse
 		ndata, dimension = X.shape
 		partition_Cs = np.empty((0, dimension), dtype = X.dtype)
 		for j in range(J):
-      if verbose >= 2:
-			  print j, 
+#      if verbose >= 2:
+#			  print j, 
 			partition_start = int(ndata * (j + 0.)/(J + 0.))
 			partition_end = int(ndata * (j + 1.)/(J + 0.))
 			
 			clustering_j = get_clustering(X_copy[partition_start:partition_end, :], n_clusters = n_clusters, max_iter = max_iter, init = "uniform", max_time = max_time, n_threads = n_threads, seed = 1011, verbose = 0, algorithm = 'auto', minibatchsize = minibatchsize, X_validation = None, validation_period = 0, capture_verbose = False)
 			partition_Cs = np.vstack([partition_Cs, clustering_j['C']])
 		
-    if verbose >= 2:
-      print ". ", 
+#    if verbose >= 2:
+#      print ". ", 
 		
 #		print "SUM TEST : ", np.sum(partition_Cs)
 		
@@ -308,16 +308,16 @@ mse
 		potential_initialiser_energies = []
 		random.seed(1011)
 		for j in range(J):
-      if verbose >= 2:
-			  print j,
+#      if verbose >= 2:
+#			  print j,
 			potential_initialisers.append(np.array(random.sample(partition_Cs_list, n_clusters), dtype = X.dtype))
 
 			clustering_j = get_clustering(partition_Cs, n_clusters = n_clusters, max_iter = max_iter, init = potential_initialisers[-1], max_time = max_time, n_threads = n_threads, seed = 1011, verbose = 0, algorithm = 'auto', minibatchsize = minibatchsize, X_validation = X_validation, validation_period = 0, capture_verbose = False)
 		
 			potential_initialiser_energies.append(clustering_j['mse'])
 		
-    if verbose >= 2:
-		  print "."
+#    if verbose >= 2:
+#		  print "."
 #		print potential_initialiser_energies
 		
 		lowest_energy_index = np.argmin(potential_initialiser_energies)
