@@ -1,5 +1,0 @@
-at terminal (assuming you've installed with blas and that openblas .so file is in ../../openblas/lib): 
-g++ -std=c++11 -I../src/ -L../lib/ -lwithblaskmeans -L../../openblas/lib -lopenblas main.cpp -o xme
-
-at terminal (assuming no blas)
-g++ -std=c++11 -I../src/ -L../lib/ -lblaslesskmeans  main.cpp -o xme
