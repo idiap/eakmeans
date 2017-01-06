@@ -153,7 +153,8 @@ init
 	string OR 2-d numpy float array OR 1-d integer array
 	if "uniform": centroids initialised as using uniform sampling from X
 	if "kmeans++": centroids initialised using sampling described in Arthur, D. and Vassilvitskii, S. (2007)
-	if "BF": use Bradley and Fayyad (with J = 10, as in Celebi et al.)
+	if "BF": use Bradley and Fayyad (with J = 10, as in Celebi et al.),
+         (but use initialisation of best partion cluster set, not its final clusters)
 	if 2-d numpy float array : assumed to be initialising centroids
 	if 1-d integer array : assumed to be indices of data used to initialise centroids
 
