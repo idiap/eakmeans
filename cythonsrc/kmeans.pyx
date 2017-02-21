@@ -154,7 +154,7 @@ init
 	if "uniform": centroids initialised as using uniform sampling from X
 	if "kmeans++": centroids initialised using sampling described in Arthur, D. and Vassilvitskii, S. (2007)
 	if "BF": use Bradley and Fayyad (with J = 10, as in Celebi et al.),
-         (but use initialisation of best partion cluster set, not its final clusters)
+	if "BFS": like Bradley and Fayyad, but use initialisation of best partion cluster set, not its final centers
 	if 2-d numpy float array : assumed to be initialising centroids
 	if 1-d integer array : assumed to be indices of data used to initialise centroids
 
@@ -278,7 +278,7 @@ mse
 			data_indices_init_from = init.copy()
 			data_indices_init_from.sort()
 	
-	elif init == "BF":
+	elif "BF" in init:
 		
 		random.seed(seed)
 		J = 10
@@ -314,14 +314,18 @@ mse
 			potential_initialiser_energies.append(clustering_j['mse'])
 		
 		lowest_energy_index = np.argmin(potential_initialiser_energies)
+		
 
-		data_indices_init_from = partition_true_start_indices[lowest_energy_index]
-		initialisation_method = "from_indices"
+    #indices ?
+		if init == "BFS":
+			data_indices_init_from = partition_true_start_indices[lowest_energy_index]
+			data_indices_init_from.sort()
+			initialisation_method = "from_indices"
+    
 
-#		init = potential_initialisers[lowest_energy_index]
-#		C_init = init.ravel()
-#    #find initial indices, to make initialise from indices. 
-#		initialisation_method = "from_C"
+		if init == "BF":
+			C_init = partition_Cs[j*n_clusters:(j+1)*n_clusters, :].ravel()
+			initialisation_method = "from_C"
 
 
 
