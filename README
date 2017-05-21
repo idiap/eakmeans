@@ -48,7 +48,7 @@ To use from a different directory,
 
 (b) add the path to lib to your python path, either by
 export PYTHONPATH=${PYTHONPATH}:/path/to/kmeans/lib
-or directly in your python script : import os, os.path.insert(0,'/path/to/kmeans/lib')
+or directly in your python script : import sys, sys.path.insert(0,'/path/to/kmeans/lib')
 Example use is found in examples/examples.py
 
 
