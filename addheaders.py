@@ -6,27 +6,48 @@
 from IPython.core.debugger import Tracer
 
 
-
-rawheader = r"""Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
+old_rawheader = r"""Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
 Written by James Newling <jnewling@idiap.ch>
 
 eakmeans is a library for exact and approximate k-means written in C++ and Python. This file is part of eakmeans. eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-hashheader = r"""#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
+old_hashheader = r"""#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
 #Written by James Newling <jnewling@idiap.ch>
 
 #eakmeans is a library for exact and approximate k-means written in C++ and Python. This file is part of eakmeans. eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-
-cppheader = r"""/*
+old_cppheader = r"""/*
 %s
 */
 
-"""%(rawheader, )
+"""%(old_rawheader, )
+
+new_rawheader = r"""
+Copyright (c) 2015-2018 Idiap Research Institute, http://www.idiap.ch/
+Written by James Newling <>
+All rights reserved.
+
+eakmeans is a library for exact and approximate k-means written in C++ and
+Python. This file is part of eakmeans. See file COPYING for more details.
+
+This file is part of eakmeans.
+
+eakmeans is free software: you can redistribute it and/or modify
+it under the terms of the 3-Clause BSD Licence. See
+https://opensource.org/licenses/BSD-3-Clause for more details.
+
+eakmeans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See file
+COPYING for more details.
+"""
+
+new_hashheader = '\n'.join(['# ' + l for l in new_rawheader.split('\n')]) + '\n'
+new_cppheader = "/*%s*/\n\n" % new_rawheader
 
 import os
 
@@ -45,7 +66,11 @@ pyxbldfiles = commands.getstatusoutput("find . -name \"*.pyxbld\"")[1].split("\n
 hashheaderable = makefiles + pyfiles + pyxfiles + pyxbldfiles
 
 
-for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader]): #rawheader,  rawheaderable,
+for files, old_header, new_header in zip(
+        [cppheaderable, hashheaderable],
+        [old_cppheader, old_hashheader],
+        [new_cppheader, new_hashheader]
+        ):
     for fn in files:
 
         if fn:
@@ -55,7 +80,10 @@ for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader
             lines = filly.read()
             filly.close()
 
+            if lines.startswith(old_header):
+                lines = lines[len(old_header):]
+
             filly = open(fn, "w")
-            filly.write(header)
+            filly.write(new_header)
             filly.write(lines)
             filly.close()
