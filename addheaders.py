@@ -45,21 +45,17 @@ pyxbldfiles = commands.getstatusoutput("find . -name \"*.pyxbld\"")[1].split("\n
 hashheaderable = makefiles + pyfiles + pyxfiles + pyxbldfiles
 
 
-if True == True:
-    for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader]): #rawheader,  rawheaderable,
-        for fn in files:
+for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader]): #rawheader,  rawheaderable,
+    for fn in files:
 
-            if fn:
-                print "headering ", fn, "..."
+        if fn:
+            print "headering ", fn, "..."
 
-                filly = open(fn, "r")
-                lines = filly.read()
-                filly.close()
+            filly = open(fn, "r")
+            lines = filly.read()
+            filly.close()
 
-                filly = open(fn, "w")
-                filly.write(header)
-                filly.write(lines)
-                filly.close()
-
-
-
+            filly = open(fn, "w")
+            filly.write(header)
+            filly.write(lines)
+            filly.close()
