@@ -45,22 +45,6 @@ pyxbldfiles = commands.getstatusoutput("find . -name \"*.pyxbld\"")[1].split("\n
 hashheaderable = makefiles + pyfiles + pyxfiles + pyxbldfiles
 
 
-
-#allfiles = commands.getstatusoutput("find . -type f")[1].split("\n")
-#for f in allfiles:
-    #if f not in cppheaderable and f not in hashheaderable and f not in rawheaderable:
-        #print f
-        #if "dat" not in f:
-            #os.remove(f)
-        ##if ".so" in f:
-            ##print f
-            ##os.remove(f)
-        ##if ".o" in f:
-            ##print f
-
-            ##os.remove(f)
-
-
 if True == True:
     for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader]): #rawheader,  rawheaderable,
         for fn in files:
