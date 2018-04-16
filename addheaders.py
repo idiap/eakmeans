@@ -28,7 +28,7 @@ old_cppheader = r"""/*
 
 new_rawheader = r"""
 Copyright (c) 2015-2018 Idiap Research Institute, http://www.idiap.ch/
-Written by James Newling <>
+Written by James Newling <james.newling@gmail.com>
 All rights reserved.
 
 eakmeans is a library for exact and approximate k-means written in C++ and
