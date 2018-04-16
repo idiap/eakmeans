@@ -64,6 +64,7 @@ new_hashheader = '\n'.join(['# ' + l for l in new_rawheader.split('\n')]) + '\n'
 new_cppheader = "/*%s*/\n\n" % new_rawheader
 
 import os
+import sys
 
 import commands
 
@@ -88,7 +89,7 @@ for files, old_header, new_header in zip(
     for fn in files:
 
         if fn:
-            print "headering ", fn, "..."
+            sys.stdout.write("headering " + fn +"...")
 
             filly = open(fn, "r")
             lines = filly.read()
@@ -97,7 +98,13 @@ for files, old_header, new_header in zip(
             if lines.startswith(old_header):
                 lines = lines[len(old_header):]
 
+            if lines.startswith(new_header):
+                # already with header, skip this file
+                sys.stdout.write(" already done, skip.\n")
+                continue
+
             filly = open(fn, "w")
             filly.write(new_header)
             filly.write(lines)
             filly.close()
+            sys.stdout.write(" done.\n")
