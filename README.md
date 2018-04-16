@@ -62,4 +62,4 @@ Example use is found in `examples/examples.py`
 
 DOESN'T WORK?
 =============
-Please contact me at jnewling@idiap.ch
+Please contact James Newling at <james.newling@gmail.com>
