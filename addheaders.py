@@ -1,34 +1,70 @@
-#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
-#Written by James Newling <jnewling@idiap.ch>
-
-#eakmeans is a library for exact and approximate k-means written in C++ and Python. This file is part of eakmeans. eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
-
+# 
+# Copyright (c) 2015-2018 Idiap Research Institute, http://www.idiap.ch/
+# Written by James Newling <james.newling@gmail.com>
+# All rights reserved.
+# 
+# eakmeans is a library for exact and approximate k-means written in C++ and
+# Python. This file is part of eakmeans. See file COPYING for more details.
+# 
+# This file is part of eakmeans.
+# 
+# eakmeans is free software: you can redistribute it and/or modify
+# it under the terms of the 3-Clause BSD Licence. See
+# https://opensource.org/licenses/BSD-3-Clause for more details.
+# 
+# eakmeans is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See file
+# COPYING for more details.
+# 
 from IPython.core.debugger import Tracer
 
 
-
-rawheader = r"""Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
+old_rawheader = r"""Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
 Written by James Newling <jnewling@idiap.ch>
 
 eakmeans is a library for exact and approximate k-means written in C++ and Python. This file is part of eakmeans. eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-hashheader = r"""#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
+old_hashheader = r"""#Copyright (c) 2015 Idiap Research Institute, http://www.idiap.ch/
 #Written by James Newling <jnewling@idiap.ch>
 
 #eakmeans is a library for exact and approximate k-means written in C++ and Python. This file is part of eakmeans. eakmeans is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License version 3 as published by the Free Software Foundation. eakmeans is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. You should have received a copy of the GNU General Public License along with eakmeans. If not, see <http://www.gnu.org/licenses/>.
 
 """
 
-
-cppheader = r"""/*
+old_cppheader = r"""/*
 %s
 */
 
-"""%(rawheader, )
+"""%(old_rawheader, )
 
-import os 
+new_rawheader = r"""
+Copyright (c) 2015-2018 Idiap Research Institute, http://www.idiap.ch/
+Written by James Newling <james.newling@gmail.com>
+All rights reserved.
+
+eakmeans is a library for exact and approximate k-means written in C++ and
+Python. This file is part of eakmeans. See file COPYING for more details.
+
+This file is part of eakmeans.
+
+eakmeans is free software: you can redistribute it and/or modify
+it under the terms of the 3-Clause BSD Licence. See
+https://opensource.org/licenses/BSD-3-Clause for more details.
+
+eakmeans is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See file
+COPYING for more details.
+"""
+
+new_hashheader = '\n'.join(['# ' + l for l in new_rawheader.split('\n')]) + '\n'
+new_cppheader = "/*%s*/\n\n" % new_rawheader
+
+import os
+import sys
 
 import commands
 
@@ -45,37 +81,30 @@ pyxbldfiles = commands.getstatusoutput("find . -name \"*.pyxbld\"")[1].split("\n
 hashheaderable = makefiles + pyfiles + pyxfiles + pyxbldfiles
 
 
+for files, old_header, new_header in zip(
+        [cppheaderable, hashheaderable],
+        [old_cppheader, old_hashheader],
+        [new_cppheader, new_hashheader]
+        ):
+    for fn in files:
 
-#allfiles = commands.getstatusoutput("find . -type f")[1].split("\n")
-#for f in allfiles:
-	#if f not in cppheaderable and f not in hashheaderable and f not in rawheaderable:
-		#print f
-		#if "dat" not in f:
-			#os.remove(f)
-		##if ".so" in f:
-			##print f
-			##os.remove(f)
-		##if ".o" in f:
-			##print f
+        if fn:
+            sys.stdout.write("headering " + fn +"...")
 
-			##os.remove(f)
+            filly = open(fn, "r")
+            lines = filly.read()
+            filly.close()
 
+            if lines.startswith(old_header):
+                lines = lines[len(old_header):]
 
-if True == True:
-	for files, header in zip([cppheaderable, hashheaderable], [cppheader, hashheader]): #rawheader,  rawheaderable, 
-		for fn in files:		
-			
-			if fn:
-				print "headering ", fn, "..."
-				
-				filly = open(fn, "r")
-				lines = filly.read()
-				filly.close()
-				
-				filly = open(fn, "w")
-				filly.write(header)
-				filly.write(lines)
-				filly.close()
-				
-		
-	
+            if lines.startswith(new_header):
+                # already with header, skip this file
+                sys.stdout.write(" already done, skip.\n")
+                continue
+
+            filly = open(fn, "w")
+            filly.write(new_header)
+            filly.write(lines)
+            filly.close()
+            sys.stdout.write(" done.\n")
