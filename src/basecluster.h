@@ -31,6 +31,7 @@ COPYING for more details.
 #include <tuple>
 #include <limits>
 #include <functional>
+#include <random>
 
 #include "barrierutil.h"
 #include "stringutilclustering.h"
