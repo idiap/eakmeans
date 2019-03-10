@@ -24,6 +24,7 @@ COPYING for more details.
 #include <thread>
 #include <mutex> 
 #include <vector>
+#include <functional>
 #include <condition_variable>
 #include <chrono>
 

@@ -30,6 +30,7 @@ COPYING for more details.
 #include <chrono>
 #include <tuple>
 #include <limits>
+#include <functional>
 
 #include "barrierutil.h"
 #include "stringutilclustering.h"

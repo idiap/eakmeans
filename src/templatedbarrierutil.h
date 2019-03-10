@@ -28,6 +28,7 @@ COPYING for more details.
 
 #include <chrono>
 #include <iostream>
+#include <functional>
 
 namespace stdthreadutil{
 

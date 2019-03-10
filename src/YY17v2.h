@@ -28,6 +28,7 @@ COPYING for more details.
 #include <sstream>
 #include <iostream>
 #include <string>
+#include <functional>
 
 namespace kmeans{
 	

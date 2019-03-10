@@ -23,6 +23,7 @@ COPYING for more details.
 
 #include "basecluster.h"
 #include <cstring>
+#include <functional>
 #include "arrutilv2l1.h"
 #include "arrutilv2copy.h"
 

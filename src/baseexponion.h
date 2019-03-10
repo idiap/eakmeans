@@ -23,6 +23,7 @@ COPYING for more details.
 
 #include "basehamerly.h"
 #include "sortutil.h"
+#include <functional>
 
 namespace kmeans{
 

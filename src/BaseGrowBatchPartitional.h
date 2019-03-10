@@ -22,6 +22,7 @@ COPYING for more details.
 #define BASEGROWBATCHPARTITIONAL_H
 
 #include "BaseGrowBatch.h"
+#include <functional>
 
 namespace kmeans{
 template <typename TInt, typename TFloat>

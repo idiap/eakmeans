@@ -22,6 +22,7 @@ COPYING for more details.
 #define GBPSimple_H
 
 #include "BaseGrowBatchPartitional.h"
+#include <functional>
 
 namespace kmeans{
 template <typename TInt, typename TFloat>
