@@ -23,6 +23,7 @@ COPYING for more details.
 #include <string>
 #include <vector>
 #include <algorithm>
+#include <ctime>
 
 #include "optionsutil.h"
 #include "pllkmeansfuncs_void.h"
@@ -611,7 +612,7 @@ int main(int argc, char* argv[]){
 			return 1;
 		}
 		
-		if (!(cout_verbosity > 1) and !(file_verbosity > 0)){
+		if (!(cout_verbosity > 1) && !(file_verbosity > 0)){
 			std::cerr << "problem with options : cmse not requested, thus : valinfn has been set to " << valinfn << " but verbosity is not compatible : cout_verbosity is " << cout_verbosity  << " and file_verbosity is " << file_verbosity << " . It is required that cout_verbosity > 1 or file_verbosirt > 0" << std::endl;
 			return 1;
 		} 		
@@ -628,62 +629,62 @@ int main(int argc, char* argv[]){
 		return 1;
 	}
 	
-	if (uopts.options["cinfn"].isset and uopts.options["ioutfn"].isset){
+	if (uopts.options["cinfn"].isset && uopts.options["ioutfn"].isset){
 		std::cerr << "problem with options : cannot set both cinfn and ioutfn" << std::endl;
 		return 1;
 	}
 	
-	if ((uopts.options["soutfn"].isset and (file_verbosity != 2 and file_verbosity != 3) )){
+	if ((uopts.options["soutfn"].isset && (file_verbosity != 2 && file_verbosity != 3) )){
 		std::cerr << "problem with options : soutfn is set, but file_verbosity is set to " << file_verbosity << ", either unset soutfn or set file_verbosity to 2 (or 3, but then include voutfn as well)" << std::endl;
 		return 1;
 	}
 	
-	if ((uopts.options["voutfn"].isset and file_verbosity != 3)){
+	if ((uopts.options["voutfn"].isset && file_verbosity != 3)){
 		std::cerr << "problem with options : voutfn is set, but file_verbosity is set to " << file_verbosity << ", either unset voutfn or set file_verbosity to 3" << std::endl;
 		return 1;
 	}
 
-	if ((uopts.options["moutfn"].isset and nruns == 1)){
+	if ((uopts.options["moutfn"].isset && nruns == 1)){
 		std::cerr << "problem with options : moutfn is set, nruns is 1, either unset moutfn or set nruns to be greater than 1" << std::endl;
 		return 1;
 	}
 	
-	if ((uopts.options["moutdir"].isset and nruns == 1)){
+	if ((uopts.options["moutdir"].isset && nruns == 1)){
 		std::cerr << "problem with options : moutdir is set, nruns is 1, either unset moutdir or set nruns to be greater than 1" << std::endl;
 		return 1;
 	}
 	
-	if ((uopts.options["voutfn"].isset and nruns != 1)){
+	if ((uopts.options["voutfn"].isset && nruns != 1)){
 		std::cerr << "problem with options : voutfn is set, nruns is " << nruns << ", either unset voutfn or set nruns to 1" << std::endl;
 		return 1;
 	}
 	
-	if ((uopts.options["soutfn"].isset and nruns != 1)){
+	if ((uopts.options["soutfn"].isset && nruns != 1)){
 		std::cerr << "problem with options : soutfn is set, nruns is " << nruns << ", this combination is currently not supported, either unset soutfn or set nruns to 1" << std::endl;
 		return 1;
 	}
 	
 		
-	if ((uopts.options["voutfn"].isset == false and file_verbosity == 3)){
+	if ((uopts.options["voutfn"].isset == false && file_verbosity == 3)){
 		std::cerr << "problem with options : voutfn is not set, but file_verbosity is set to 3, either lower file_verbosity to 0 or 2, or set voutfn" << std::endl;
 		return 1;
 	}
 	
-	if (nruns != 1 and (uopts.options["cinfn"].isset || uopts.options["ind0fn"].isset )){
+	if (nruns != 1 && (uopts.options["cinfn"].isset || uopts.options["ind0fn"].isset )){
 		std::cerr << "problem with options : nruns is set to " << nruns << ", but either cinfn or ind0fn is set. For nruns > 1, it is currently not possible to initialise from prespecified centroids or indices. Either reduce nruns to 1, or make sure neither cinfn nor indofn are set. With nruns > 1, init0 may be set. " << std::endl;
 		return 1;
 	}
 	
 	int ninitflags = uopts.options["cinfn"].isset + uopts.options["ind0fn"].isset + uopts.options["init0"].isset;
 	if (ninitflags > 1){
-		std::cerr << "at most one 1 of cinfn, ind0fn and init0 can be set" << std::endl;
+		std::cerr << "at most one 1 of cinfn, ind0fn && init0 can be set" << std::endl;
 		return 1;		
 	}
 	
 	
 	if (
-	(uopts.options["cmsewritefn"].isset and !(uopts.options["cmserate"].isset)) ||
-	(!(uopts.options["cmsewritefn"].isset) and uopts.options["cmserate"].isset))
+	(uopts.options["cmsewritefn"].isset && !(uopts.options["cmserate"].isset)) ||
+	(!(uopts.options["cmsewritefn"].isset) && uopts.options["cmserate"].isset))
 	{
 			std::cerr << "problem with options : either 0 or 2 of cmsewritefn and cmserate need to be set\n";
 			return 1;
