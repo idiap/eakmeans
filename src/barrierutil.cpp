@@ -20,6 +20,7 @@ COPYING for more details.
 
 #include "barrierutil.h"
 #include <iostream>
+#include <algorithm>
 
 namespace stdthreadutil{
 

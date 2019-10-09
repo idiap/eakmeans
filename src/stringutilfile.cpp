@@ -63,7 +63,7 @@ bool file_has_2int_header(const std::string & filename){
 		return false;
 	}
 	/* next test that they are indeed integers */	
-	if (is_integer(bob[0]) and is_integer(bob[1])){
+	if (is_integer(bob[0]) && is_integer(bob[1])){
 		return true;
 	}
 

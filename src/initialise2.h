@@ -156,7 +156,11 @@ std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TFloat []>, std::unique_p
 	std::unique_ptr<TFloat [] >,
 	std::unique_ptr<TInt [] >,
 	TFloat > 
-	(std::move(C_uptr), std::move(C_l22s_uptr), std::move(ind0), TFloat(mse2));	
+#ifdef _MSC_VER
+	(std::move(C_uptr), std::move(C_l22s_uptr), std::move(ind0), std::move(TFloat(mse2)));	//force forwarding
+#else
+	(std::move(C_uptr), std::move(C_l22s_uptr), std::move(ind0), TFloat(mse2));
+#endif
 }
 
 

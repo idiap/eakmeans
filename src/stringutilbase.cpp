@@ -21,6 +21,8 @@ COPYING for more details.
 #include "stringutilbase.h"
 #include <stdexcept>
 #include <iostream>
+#include <algorithm>
+
 namespace stringutil{
 //split the string tosplit by delim. With x appearances of delim in tosplit, the returned vector will have length x + 1 (even if appearances at the start, end, contiguous.
 std::vector<std::string> split(const std::string & tosplit, const std::string & delim){
@@ -63,12 +65,12 @@ std::vector<std::string> split(const std::string & tosplit){
 	unsigned it = 0;	
 	
 	while (it != tosplit.size()){
-		while (isws(tosplit[it]) and it != tosplit.size()){
+		while (isws(tosplit[it]) && it != tosplit.size()){
 			++it;
 		}
 		unsigned start = it;
 		
-		while (!isws(tosplit[it]) and it != tosplit.size()){
+		while (!isws(tosplit[it]) && it != tosplit.size()){
 			++it;
 		}
 		unsigned end = it;
