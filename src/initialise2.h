@@ -160,7 +160,7 @@ std::tuple<std::unique_ptr<TFloat []>, std::unique_ptr<TFloat []>, std::unique_p
 	(std::move(C_uptr), std::move(C_l22s_uptr), std::move(ind0), std::move(TFloat(mse2)));	//force forwarding
 #else
 	(std::move(C_uptr), std::move(C_l22s_uptr), std::move(ind0), TFloat(mse2));
-#endif	
+#endif
 }
 
 

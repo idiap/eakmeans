@@ -55,7 +55,7 @@ COPYING for more details.
 #endif
 
 #ifdef _MSC_VER
-// add setenv undeer Windows
+// add setenv under Windows
 int setenv(const char *name, const char *value, int overwrite)
 {
 	int errcode = 0;

@@ -677,7 +677,7 @@ int main(int argc, char* argv[]){
 	
 	int ninitflags = uopts.options["cinfn"].isset + uopts.options["ind0fn"].isset + uopts.options["init0"].isset;
 	if (ninitflags > 1){
-		std::cerr << "at most one 1 of cinfn, ind0fn && init0 can be set" << std::endl;
+		std::cerr << "at most one 1 of cinfn, ind0fn and init0 can be set" << std::endl;
 		return 1;		
 	}
 	
